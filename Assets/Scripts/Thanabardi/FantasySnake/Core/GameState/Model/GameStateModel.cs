@@ -1,4 +1,5 @@
 using Thanabardi.FantasySnake.Core.GameScene;
+using Thanabardi.FantasySnake.Core.NewInputSystem;
 using Thanabardi.Generic.Core.StateSystem;
 
 namespace Thanabardi.FantasySnake.Core.GameState.Model
@@ -9,12 +10,16 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
         public override void OnStateIn()
         {
             base.OnStateIn();
-            GameSceneManager.Instance.GoToScene(GameSceneManager.SceneKey.GameScene);
+            GameSceneManager.Instance.GoToScene(GameSceneManager.SceneKey.GameScene, () =>
+            {
+                InputManager.Instance.EnableGameAction(true);
+            });
         }
 
         public override void OnStateOut()
         {
             base.OnStateOut();
+            InputManager.Instance.EnableGameAction(false);
         }
     }
 }
