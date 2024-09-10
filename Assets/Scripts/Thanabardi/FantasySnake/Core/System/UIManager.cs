@@ -8,20 +8,32 @@ namespace Thanabardi.FantasySnake.Core.System
     {
         [SerializeField]
         private MenuPanel _menuPanel;
+        [SerializeField]
+        private SettingPanel _settingPanel;
+        [SerializeField]
+        private SceneLoadPanel _sceneLoadPanel;
 
         public override void Awake()
         {
             base.Awake();
         }
 
-        public IUIPanel Show(UIKey uIKey)
+        public IUIPanel SetPanelActive(UIKey uIKey, bool isActive)
         {
             switch (uIKey)
             {
                 case UIKey.MenuPanel:
-                    _menuPanel.SetActive(true);
+                    _menuPanel.SetActive(isActive);
                     _menuPanel.transform.SetAsLastSibling();
                     return _menuPanel;
+                case UIKey.SettingPanel:
+                    _settingPanel.SetActive(isActive);
+                    _settingPanel.transform.SetAsLastSibling();
+                    return _settingPanel;
+                case UIKey.SceneLoadPanel:
+                    _sceneLoadPanel.SetActive(isActive);
+                    _sceneLoadPanel.transform.SetAsLastSibling();
+                    return _sceneLoadPanel;
                 default:
                     Debug.LogError("UI Panel not found");
                     return null;
@@ -30,7 +42,9 @@ namespace Thanabardi.FantasySnake.Core.System
 
         public enum UIKey
         {
-            MenuPanel
+            MenuPanel,
+            SettingPanel,
+            SceneLoadPanel
         }
     }
 }
