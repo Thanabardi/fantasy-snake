@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d4f1fe48ad8104cbf7bc3a7dbc70e5, type: 3}
   m_Name: Wizard
   m_EditorClassIdentifier: 
-  _classIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  _classIcon: {fileID: 21300000, guid: 276ae15ef08274444b610c706c6a85a7, type: 3}
   _spawnRate: 1
   _minHealthStat: 1
   _maxHealthStat: 3

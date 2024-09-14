@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d4f1fe48ad8104cbf7bc3a7dbc70e5, type: 3}
   m_Name: Rogue
   m_EditorClassIdentifier: 
-  _classIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _classIcon: {fileID: 21300000, guid: 16b6221a2553bc949b5baa846650142a, type: 3}
   _spawnRate: 3
   _minHealthStat: 2
   _maxHealthStat: 4

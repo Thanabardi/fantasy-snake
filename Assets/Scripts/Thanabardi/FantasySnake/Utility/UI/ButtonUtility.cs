@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-namespace Thanabardi.FantasySnake.Utility
+namespace Thanabardi.FantasySnake.Utility.UI
 {
     public class ButtonUtility : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
     {

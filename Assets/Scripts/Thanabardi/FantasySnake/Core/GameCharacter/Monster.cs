@@ -17,15 +17,14 @@ namespace Thanabardi.FantasySnake.Core.GameCharacter
                         multiplyer = multiply;
                     }
                     int damage = Mathf.Max(0, hero.Attack - Defense) * multiplyer;
-                    if (damage >= Health)
+                    TakeDamage(damage);
+                    Debug.Log($"{name}, Health:{Health}, Attack:{Attack}, Defense:{Defense}, Multiplyer:{multiplyer}, Damage:{damage}");
+                    if (Health <= 0)
                     {
                         // monster died
-                        onDestroy?.Invoke();
+                        // onDestroy?.Invoke();
                         return;
                     }
-                    Debug.Log($"{name}, Health:{Health}, Attack:{Attack}, Defense:{Defense}, Multiplyer:{multiplyer}, Damage:{damage}");
-                    Health -= damage;
-                    StatusUIUtility.OnHealthUpdate(Health);
                     break;
                 default:
                     break;
