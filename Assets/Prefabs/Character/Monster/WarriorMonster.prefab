@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7983764090624433569}
   - component: {fileID: 3497367981231166052}
-  - component: {fileID: 2657129435123124556}
+  - component: {fileID: 4156081227410808580}
   m_Layer: 0
-  m_Name: Player
+  m_Name: WarriorMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.49056602, g: 0, b: 0.11927493, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -86,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2657129435123124556
+--- !u!114 &4156081227410808580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,6 +95,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2847103380269119802}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b19bb74aee237aa4e8a2892e8d4770b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 8129ef3dabf14e849a1fea67b6a80e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _statusUIUtility: {fileID: 8671465243112532333, guid: 80c1f2f62b0d9aa4b91bb59009c65347,
+    type: 3}
+  _characterClass: {fileID: 11400000, guid: 41d3580a3715aec4abb66b2cf53f466f, type: 2}

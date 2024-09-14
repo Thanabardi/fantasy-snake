@@ -1,3 +1,4 @@
+using Thanabardi.FantasySnake.Core.GameScene;
 using Thanabardi.FantasySnake.Core.System;
 using Thanabardi.FantasySnake.Core.UI;
 using Thanabardi.Generic.Core.StateSystem;
@@ -12,10 +13,13 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
         public override void OnStateIn()
         {
             base.OnStateIn();
-            _menuPanel = (MenuPanel)UIManager.Instance.SetPanelActive(UIManager.UIKey.MenuPanel, true);
-            _menuPanel.OnPlayButtonClicked += PlayGame;
-            _menuPanel.OnSettingButtonClicked += Setting;
-            _menuPanel.OnExitButtonClicked += ExitGame;
+            GameSceneManager.Instance.GoToScene(GameSceneManager.SceneKey.MenuScene, () =>
+            {
+                _menuPanel = (MenuPanel)UIManager.Instance.SetPanelActive(UIManager.UIKey.MenuPanel, true);
+                _menuPanel.OnPlayButtonClicked += PlayGame;
+                _menuPanel.OnSettingButtonClicked += Setting;
+                _menuPanel.OnExitButtonClicked += ExitGame;
+            });
         }
 
         public override void OnStateOut()

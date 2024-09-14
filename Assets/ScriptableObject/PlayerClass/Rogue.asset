@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98d4f1fe48ad8104cbf7bc3a7dbc70e5, type: 3}
+  m_Name: Rogue
+  m_EditorClassIdentifier: 
+  _classIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _spawnRate: 3
+  _minHealthStat: 2
+  _maxHealthStat: 4
+  _minAttackStat: 4
+  _maxAttackStat: 6
+  _minDefenseStat: 2
+  _maxDefenseStat: 4
+  _damageMultipliers:
+  - CharacterClassSO: {fileID: 11400000, guid: 41d3580a3715aec4abb66b2cf53f466f, type: 2}
+    DamageMultiply: 2
+  _heroPrefabs:
+  - {fileID: 2526295572059392500, guid: c7318ec9aa6b4de4c8bf3857d8a10b19, type: 3}
+  _monsterPrefabs:
+  - {fileID: 8911312862329923916, guid: abb68f253fe42704c972d4a17921e26f, type: 3}

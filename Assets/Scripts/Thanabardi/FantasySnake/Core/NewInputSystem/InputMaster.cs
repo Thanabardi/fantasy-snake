@@ -64,6 +64,24 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotateOrderLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9900111-52fe-41a5-b4fa-157786764c17"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateOrderRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""2260d657-7582-427d-bdba-4100e8f5557d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,50 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""MoveRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70f0577b-8b9c-4e8d-a1bf-38be5273d6b3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""RotateOrderLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9fa59f2f-46d1-447a-97f8-6a97bd7cfd32"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RotateOrderLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17fd512d-a5cf-464e-8d34-65a9b2729742"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""RotateOrderRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fa6ba954-5c4e-48c5-a3d5-c0a3901b052c"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""RotateOrderRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -683,6 +745,8 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
             m_Gameplay_MoveDown = m_Gameplay.FindAction("MoveDown", throwIfNotFound: true);
             m_Gameplay_MoveLeft = m_Gameplay.FindAction("MoveLeft", throwIfNotFound: true);
             m_Gameplay_MoveRight = m_Gameplay.FindAction("MoveRight", throwIfNotFound: true);
+            m_Gameplay_RotateOrderLeft = m_Gameplay.FindAction("RotateOrderLeft", throwIfNotFound: true);
+            m_Gameplay_RotateOrderRight = m_Gameplay.FindAction("RotateOrderRight", throwIfNotFound: true);
             // Shortcut
             m_Shortcut = asset.FindActionMap("Shortcut", throwIfNotFound: true);
             m_Shortcut_Setting = m_Shortcut.FindAction("Setting", throwIfNotFound: true);
@@ -763,6 +827,8 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
         private readonly InputAction m_Gameplay_MoveDown;
         private readonly InputAction m_Gameplay_MoveLeft;
         private readonly InputAction m_Gameplay_MoveRight;
+        private readonly InputAction m_Gameplay_RotateOrderLeft;
+        private readonly InputAction m_Gameplay_RotateOrderRight;
         public struct GameplayActions
         {
             private @InputMaster m_Wrapper;
@@ -771,6 +837,8 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
             public InputAction @MoveDown => m_Wrapper.m_Gameplay_MoveDown;
             public InputAction @MoveLeft => m_Wrapper.m_Gameplay_MoveLeft;
             public InputAction @MoveRight => m_Wrapper.m_Gameplay_MoveRight;
+            public InputAction @RotateOrderLeft => m_Wrapper.m_Gameplay_RotateOrderLeft;
+            public InputAction @RotateOrderRight => m_Wrapper.m_Gameplay_RotateOrderRight;
             public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -792,6 +860,12 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
                 @MoveRight.started += instance.OnMoveRight;
                 @MoveRight.performed += instance.OnMoveRight;
                 @MoveRight.canceled += instance.OnMoveRight;
+                @RotateOrderLeft.started += instance.OnRotateOrderLeft;
+                @RotateOrderLeft.performed += instance.OnRotateOrderLeft;
+                @RotateOrderLeft.canceled += instance.OnRotateOrderLeft;
+                @RotateOrderRight.started += instance.OnRotateOrderRight;
+                @RotateOrderRight.performed += instance.OnRotateOrderRight;
+                @RotateOrderRight.canceled += instance.OnRotateOrderRight;
             }
 
             private void UnregisterCallbacks(IGameplayActions instance)
@@ -808,6 +882,12 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
                 @MoveRight.started -= instance.OnMoveRight;
                 @MoveRight.performed -= instance.OnMoveRight;
                 @MoveRight.canceled -= instance.OnMoveRight;
+                @RotateOrderLeft.started -= instance.OnRotateOrderLeft;
+                @RotateOrderLeft.performed -= instance.OnRotateOrderLeft;
+                @RotateOrderLeft.canceled -= instance.OnRotateOrderLeft;
+                @RotateOrderRight.started -= instance.OnRotateOrderRight;
+                @RotateOrderRight.performed -= instance.OnRotateOrderRight;
+                @RotateOrderRight.canceled -= instance.OnRotateOrderRight;
             }
 
             public void RemoveCallbacks(IGameplayActions instance)
@@ -1013,6 +1093,8 @@ namespace Thanabardi.FantasySnake.Core.NewInputSystem
             void OnMoveDown(InputAction.CallbackContext context);
             void OnMoveLeft(InputAction.CallbackContext context);
             void OnMoveRight(InputAction.CallbackContext context);
+            void OnRotateOrderLeft(InputAction.CallbackContext context);
+            void OnRotateOrderRight(InputAction.CallbackContext context);
         }
         public interface IShortcutActions
         {

@@ -1,0 +1,20 @@
+{
+    "BoardWidth": 16,
+    "BoardHeight": 16,
+    "InitMonsterSpawnNumber": 4,
+    "InitHeroSpawnNumber": 4,
+    "SpawnChance": [
+        {
+            "Rate": 0.6,
+            "SpawnNumber": 1
+        },
+        {
+            "Rate": 0.3,
+            "SpawnNumber": 2
+        },
+        {
+            "Rate": 0.1,
+            "SpawnNumber": 3
+        }
+    ]
+}
