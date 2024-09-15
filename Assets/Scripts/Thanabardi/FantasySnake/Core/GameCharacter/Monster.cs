@@ -8,6 +8,7 @@ namespace Thanabardi.FantasySnake.Core.GameCharacter
     {
         public override void OnHit(WorldItem other, Action onDestroy)
         {
+            TurnLookAt(other.transform.position);
             switch (other)
             {
                 case Hero hero:
@@ -17,12 +18,14 @@ namespace Thanabardi.FantasySnake.Core.GameCharacter
                         multiplyer = multiply;
                     }
                     int damage = Mathf.Max(0, hero.Attack - Defense) * multiplyer;
+                    CharacterAttack();
                     TakeDamage(damage);
                     Debug.Log($"{name}, Health:{Health}, Attack:{Attack}, Defense:{Defense}, Multiplyer:{multiplyer}, Damage:{damage}");
                     if (Health <= 0)
                     {
                         // monster died
-                        // onDestroy?.Invoke();
+                        CharacterDied();
+                        onDestroy?.Invoke();
                         return;
                     }
                     break;

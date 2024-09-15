@@ -1,12 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using Thanabardi.FantasySnake.Core.GameCharacter;
 using Thanabardi.FantasySnake.Core.GameState;
 using Thanabardi.FantasySnake.Core.GameWorld;
-using Thanabardi.FantasySnake.Core.NewInputSystem;
 using Thanabardi.FantasySnake.Utility;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Thanabardi.FantasySnake.Core.System
 {
@@ -52,6 +51,7 @@ namespace Thanabardi.FantasySnake.Core.System
 
         public void RotateOrderRightHandler()
         {
+            // dequeue until the last Hero becomes the first
             for (int i = 0; i < _playerQueue.Count - 1; i++)
             {
                 Hero player = _playerQueue.Dequeue();
@@ -67,7 +67,6 @@ namespace Thanabardi.FantasySnake.Core.System
             {
                 if (_gridManager.MoveWorldItemBy(player, (int)direction.x, (int)direction.y, out GridTile gridTile))
                 {
-                    Debug.Log(gridTile.ContainedItem);
                     switch (gridTile.ContainedItem)
                     {
                         case Hero hero:
@@ -88,7 +87,11 @@ namespace Thanabardi.FantasySnake.Core.System
         {
             if (_playerQueue.Contains(hero))
             {
-                GameStateManager.Instance.GoToState((int)GameStates.State.Menu);
+                // prevent players from turning back and make game over when hitting the line.
+                if (hero != _playerQueue.ElementAt(1))
+                {
+                    GameStateManager.Instance.GoToState((int)GameStates.State.Menu);
+                }
                 return;
             }
             _playerQueue.Enqueue(hero);

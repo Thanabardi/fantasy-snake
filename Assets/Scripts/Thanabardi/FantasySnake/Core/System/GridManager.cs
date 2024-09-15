@@ -2,6 +2,7 @@ using UnityEngine;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using System.Collections.Generic;
 using UnityEditor.Rendering.BuiltIn.ShaderGraph;
+using UnityEngine.UIElements;
 
 namespace Thanabardi.FantasySnake.Core.System
 {
@@ -14,8 +15,10 @@ namespace Thanabardi.FantasySnake.Core.System
 
         [SerializeField]
         private GridTile _gridTile;
+        [SerializeField]
+        private GameObject[] _wallTiles;
 
-        public GridTile[,] GridTiles { get; private set; }
+        private GridTile[,] _gridTiles;
 
         private List<GridTile> _emptyGridTiles;
         private Dictionary<WorldItem, GridTile> _usedGridTiles;
@@ -24,7 +27,7 @@ namespace Thanabardi.FantasySnake.Core.System
         {
             // _boardWidth = GameConfig.ConfigData.BoardWidth;
             // _boardHeight = GameConfig.ConfigData.BoardHeight;
-            GridTiles = new GridTile[_boardWidth, _boardHeight];
+            _gridTiles = new GridTile[_boardWidth, _boardHeight];
             _emptyGridTiles = new();
             _usedGridTiles = new();
             GenerateMap();
@@ -32,16 +35,42 @@ namespace Thanabardi.FantasySnake.Core.System
 
         private void GenerateMap()
         {
+            Queue<GameObject> _wallTileQueue = new(_wallTiles);
             GameObject board = new("Board");
+            GameObject BoardWall = new("BoardWall");
             for (int row = 0; row < _boardWidth; row++)
             {
                 for (int column = 0; column < _boardHeight; column++)
                 {
                     GridTile gridTile = Instantiate(_gridTile, new Vector3(row, 0, column), Quaternion.Euler(90, 0, 0), board.transform);
                     gridTile.Initialize(row, column);
-                    GridTiles[row, column] = gridTile;
+                    _gridTiles[row, column] = gridTile;
                     _emptyGridTiles.Add(gridTile);
+                    if (row == 0)
+                    {
+                        // spawn wall on the left
+                        SpawnWallHandler(new Vector3(row - 0.5f, 0, column), Quaternion.Euler(0, -90, 0), BoardWall.transform, ref _wallTileQueue);
+                    }
+                    else if (row == _boardWidth - 1)
+                    {
+                        // spawn wall on right
+                        SpawnWallHandler(new Vector3(row + 0.5f, 0, column), Quaternion.Euler(0, 90, 0), BoardWall.transform, ref _wallTileQueue);
+                    }
+                    if (column == _boardHeight - 1)
+                    {
+                        // spawn wall on top
+                        SpawnWallHandler(new Vector3(row, 0, column + 0.5f), Quaternion.identity, BoardWall.transform, ref _wallTileQueue);
+                    }
                 }
+            }
+        }
+
+        private void SpawnWallHandler(Vector3 position, Quaternion quaternion, Transform parent, ref Queue<GameObject> _wallTileQueue)
+        {
+            if (_wallTileQueue.TryDequeue(out GameObject wall))
+            {
+                Instantiate(wall, position, quaternion, parent);
+                _wallTileQueue.Enqueue(wall);
             }
         }
 
@@ -66,7 +95,7 @@ namespace Thanabardi.FantasySnake.Core.System
             if ((newRow >= 0 && newRow < _boardWidth) &&
                 (newColumn >= 0 && newColumn < _boardHeight))
             {
-                gridTile = GridTiles[newRow, newColumn];
+                gridTile = _gridTiles[newRow, newColumn];
                 return true;
             }
             return false;
@@ -74,7 +103,6 @@ namespace Thanabardi.FantasySnake.Core.System
 
         public void PlaceWorldItem(WorldItem worldItem, GridTile destination)
         {
-            // Bug potential empty array out of range maybe doesn't return grid to empty arry properly
             worldItem.transform.position = destination.transform.position;
             // remove old grid tile on update position
             if (_usedGridTiles.TryGetValue(worldItem, out var usedGridTile))
@@ -96,7 +124,7 @@ namespace Thanabardi.FantasySnake.Core.System
                 currentGridTile.SetContainedItem(null);
                 _emptyGridTiles.Add(currentGridTile);
                 _usedGridTiles.Remove(worldItem);
-                Destroy(worldItem.gameObject);
+                // Destroy(worldItem.gameObject);
             }
         }
     }

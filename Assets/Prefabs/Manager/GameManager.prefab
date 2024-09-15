@@ -63,8 +63,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _boardWidth: 16
   _boardHeight: 16
-  _gridTile: {fileID: 7113047357605394269, guid: 0e9718c4755b15044b0e068a3f98bb2f,
+  _gridTile: {fileID: 805149119978431856, guid: 38c0e5857be4fc84892e3cee61159a21,
     type: 3}
+  _wallTiles:
+  - {fileID: 1160197296584222474, guid: 6dd5ee432b5e05b499ae7529b4bd8652, type: 3}
+  - {fileID: 5948087658477816024, guid: b16bccbec436dae43bea02e10c006f48, type: 3}
+  - {fileID: 8683886462688978997, guid: c4ba604612045fc49a842aba85a7a5a0, type: 3}
 --- !u!114 &4660103130557552380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,10 +84,13 @@ MonoBehaviour:
   initHeroSpawnNumber: 4
   initMonsterSpawnNumber: 4
   _obstraclePrefabs: []
-  _characterClasses:
-  - {fileID: 11400000, guid: 98eae72ea11982d49a2d5b856703f436, type: 2}
-  - {fileID: 11400000, guid: 41d3580a3715aec4abb66b2cf53f466f, type: 2}
-  - {fileID: 11400000, guid: b6de4704f9d031243beb5f74aada20e3, type: 2}
+  _characterPrefabs:
+  - {fileID: 2526295572059392500, guid: c7318ec9aa6b4de4c8bf3857d8a10b19, type: 3}
+  - {fileID: 1007008418566036376, guid: 0c4490989a24136418448114bfcd213d, type: 3}
+  - {fileID: 2207508779262921573, guid: 25e8aa8b8c82f9a48a034435a7f5c90f, type: 3}
+  - {fileID: 8911312862329923916, guid: abb68f253fe42704c972d4a17921e26f, type: 3}
+  - {fileID: 4156081227410808580, guid: 0a055dae2dd978d44800d9d6f88d404b, type: 3}
+  - {fileID: 1865265823953088776, guid: 31837e69f59821e45a986271a3c6c22b, type: 3}
   _spawnChances:
   - Chance: 0.7
     SpawnNumber: 1

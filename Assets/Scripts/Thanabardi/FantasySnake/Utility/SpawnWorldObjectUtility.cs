@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Thanabardi.FantasySnake.Core.FantasySnakeSO;
 using Thanabardi.FantasySnake.Core.GameCharacter;
@@ -21,29 +22,47 @@ namespace Thanabardi.FantasySnake.Utility
         private GameObject[] _obstraclePrefabs;
 
         [SerializeField]
-        private CharacterClassSO[] _characterClasses;
+        private Character[] _characterPrefabs;
 
         [SerializeField]
         private SpawnChance[] _spawnChances;
 
         private GridManager _gridManager;
 
+        private Dictionary<CharacterClassSO, Dictionary<Type, List<Character>>> _characterClassDict;
+        private CharacterClassSO[] _characterClasses;
         private float _maxClassSpawnProb = 0;
         private float _maxSpawnChances = 0;
 
         private void Awake()
         {
             _gridManager = FindObjectOfType<GridManager>();
-            _characterClasses = _characterClasses.OrderBy(c => c.SpawnRate).ToArray();
-            _maxClassSpawnProb = _characterClasses.Last()?.SpawnRate ?? 0;
+            InitializeCharacterDict();
 
-            foreach (var item in _characterClasses)
-            {
-                Debug.Log(item.name + " " + item.SpawnRate);
-            }
+            _characterClasses = _characterClassDict.Keys.OrderBy(c => c.SpawnRate).ToArray();
+            _maxClassSpawnProb = _characterClasses.Last()?.SpawnRate ?? 0;
 
             _spawnChances = _spawnChances.OrderBy(c => c.Chance).ToArray();
             _maxSpawnChances = _spawnChances.Last()?.Chance ?? 0;
+        }
+
+        private void InitializeCharacterDict()
+        {
+            _characterClassDict = new();
+            foreach (Character character in _characterPrefabs)
+            {
+                // check is the dictionary contains the character class
+                if (_characterClassDict.TryGetValue(character.CharacterClass, out var characterDict))
+                {
+                    // check is character class contains character type
+                    if (characterDict.TryGetValue(character.GetType(), out var characterList))
+                    {
+                        characterList.Add(character);
+                    }
+                    else { characterDict.Add(character.GetType(), new() { character }); }
+                }
+                else { _characterClassDict.Add(character.CharacterClass, new() { { character.GetType(), new() { character } } }); }
+            }
         }
 
         private void Start()
@@ -83,20 +102,8 @@ namespace Thanabardi.FantasySnake.Utility
             {
                 if (randomVar <= characterclass.SpawnRate / _maxClassSpawnProb)
                 {
-                    Character characterPrefab;
-                    if (type == typeof(Hero))
-                    {
-                        characterPrefab = characterclass.HeroPrefabs[Random.Range(0, characterclass.HeroPrefabs.Length)];
-                    }
-                    else if (type == typeof(Monster))
-                    {
-                        characterPrefab = characterclass.MonsterPrefabs[Random.Range(0, characterclass.MonsterPrefabs.Length)];
-                    }
-                    else
-                    {
-                        Debug.LogError("Type not found");
-                        return null;
-                    }
+                    List<Character> characterPrefabs = _characterClassDict[characterclass][type];
+                    Character characterPrefab = characterPrefabs[Random.Range(0, characterPrefabs.Count)];
                     Character character = Instantiate(characterPrefab, gridTile.transform.position, Quaternion.identity);
                     _gridManager.PlaceWorldItem(character, gridTile);
                     return character;

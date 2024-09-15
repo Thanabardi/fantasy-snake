@@ -34,17 +34,6 @@ namespace Thanabardi.FantasySnake.Utility
             UpdatePlayerPosition(players);
         }
 
-        // public void PlayerDiedHandler(Queue<Hero> players, GridTile destination)
-        // {
-        //     // on hero died
-        //     _playerTileQueue.Enqueue(destination);
-        //     _playerTileQueue.Dequeue();
-        //     GridTile tile = _playerTileQueue.Dequeue();
-        //     // in case of there are only 2 heros in the party
-        //     tile.SetContainedItem(null);
-        //     UpdatePlayerPosition(players);
-        // }
-
         public void PlayerAddHandler(Queue<Hero> players, GridTile destination)
         {
             // on collect new hero
@@ -70,7 +59,9 @@ namespace Thanabardi.FantasySnake.Utility
             int lenght = playerArray.Length;
             for (int i = 0; i < lenght; i++)
             {
-                _gridManager.PlaceWorldItem(playerArray[i], playerTileArray[(lenght - 1) - i]);
+                GridTile destination = playerTileArray[(lenght - 1) - i];
+                playerArray[i].TurnLookAt(destination.transform.position);
+                _gridManager.PlaceWorldItem(playerArray[i], destination);
             }
         }
     }

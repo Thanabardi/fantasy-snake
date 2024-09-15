@@ -11,8 +11,6 @@ namespace Thanabardi.FantasySnake.Utility
         public event Action OnRotateOrderLeft;
         public event Action OnRotateOrderRight;
 
-        private Vector2 _lastDirection;
-
         private void OnEnable()
         {
             InputManager.Instance.InputMaster.Gameplay.MoveUp.performed += MoveUp;
@@ -34,22 +32,22 @@ namespace Thanabardi.FantasySnake.Utility
 
         private void MoveUp(InputAction.CallbackContext context)
         {
-            if (_lastDirection != Vector2.down) { Move(Vector2.up); }
+            Move(Vector2.up);
         }
 
         private void MoveDown(InputAction.CallbackContext context)
         {
-            if (_lastDirection != Vector2.up) { Move(Vector2.down); }
+            Move(Vector2.down);
         }
 
         private void MoveLeft(InputAction.CallbackContext context)
         {
-            if (_lastDirection != Vector2.right) { Move(Vector2.left); }
+            Move(Vector2.left);
         }
 
         private void MoveRight(InputAction.CallbackContext context)
         {
-            if (_lastDirection != Vector2.left) { Move(Vector2.right); }
+            Move(Vector2.right);
         }
 
         private void RotateOrderLeftHandler(InputAction.CallbackContext context)
@@ -65,7 +63,6 @@ namespace Thanabardi.FantasySnake.Utility
         private void Move(Vector2 direction)
         {
             OnPlayerMove?.Invoke(direction);
-            _lastDirection = direction;
         }
     }
 }

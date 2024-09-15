@@ -30,10 +30,18 @@ namespace Thanabardi.FantasySnake.Utility.UI
         private List<Image> _healthBarSections = new();
         private Character _character;
 
+        private Color _healthBarColor;
+
         public void Awake()
         {
             _character = FindObjectOfType<Character>();
             _classIcon.sprite = _character.CharacterClass.ClassIcon;
+            if (_character is Monster)
+            {
+                _healthBarColor = Color.red;
+            } else {
+                _healthBarColor = Color.green;
+            }
         }
 
         private void Start()
@@ -45,14 +53,14 @@ namespace Thanabardi.FantasySnake.Utility.UI
 
         private void OnEnable()
         {
-            _character.OnhealthUpdate += OnHealthUpdateHandler;
-            _character.OnTakeDamage += OnTakeDamageHandler;
+            _character.OnHealthUpdate += OnHealthUpdateHandler;
+            _character.OnGetHit += OnTakeDamageHandler;
         }
 
         private void OnDisable()
         {
-            _character.OnhealthUpdate -= OnHealthUpdateHandler;
-            _character.OnTakeDamage -= OnTakeDamageHandler;
+            _character.OnHealthUpdate -= OnHealthUpdateHandler;
+            _character.OnGetHit -= OnTakeDamageHandler;
         }
 
         private void OnHealthUpdateHandler(int health)
@@ -61,7 +69,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
             {
                 if (i <= health - 1) // health start at 1
                 {
-                    _healthBarSections[i].color = Color.green;
+                    _healthBarSections[i].color = _healthBarColor;
                 }
                 else
                 {
@@ -92,7 +100,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
         {
             for (int i = 0; i < maxHealth; i++)
             {
-                Image bar = InstantiateImage(_barSection, _healthBar.transform, Color.green);
+                Image bar = InstantiateImage(_barSection, _healthBar.transform, _healthBarColor);
                 _healthBarSections.Add(bar);
             }
         }

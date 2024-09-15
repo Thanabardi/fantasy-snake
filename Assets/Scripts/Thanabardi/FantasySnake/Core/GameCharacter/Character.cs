@@ -15,8 +15,10 @@ namespace Thanabardi.FantasySnake.Core.GameCharacter
         public int Attack { get; private set; }
         public int Defense { get; private set; }
 
-        public event Action<int> OnhealthUpdate;
-        public event Action<int> OnTakeDamage;
+        public event Action<int> OnHealthUpdate;
+        public event Action<int> OnGetHit;
+        public event Action OnAttack;
+        public event Action OnDie;
 
         public void Awake()
         {
@@ -34,17 +36,43 @@ namespace Thanabardi.FantasySnake.Core.GameCharacter
             }
         }
 
-        protected virtual void TakeDamage(int damage)
+        public void TurnLookAt(Vector3 direction)
         {
-            UpdateHealth(Health - damage);
-            OnTakeDamage?.Invoke(damage);
+            if (direction.x > transform.position.x)
+            {
+                // other is on the right side
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (direction.x < transform.position.x)
+            {
+                // other is on the left side
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
         }
 
+        public void CharacterAttack()
+        {
+            OnAttack?.Invoke();
+        }
+
+        protected void CharacterDied()
+        {
+            OnDie?.Invoke();
+        }
+
+        protected virtual void TakeDamage(int damage)
+        {
+            OnGetHit?.Invoke(damage);
+            if (damage > 0)
+            {
+                UpdateHealth(Health - damage);
+            }
+        }
 
         protected virtual void UpdateHealth(int health)
         {
             Health = Mathf.Max(0, health);
-            OnhealthUpdate?.Invoke(health);
+            OnHealthUpdate?.Invoke(health);
         }
 
         protected virtual void UpdateAttack(int attack)
