@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameCharacter;
 using UnityEngine;
 
 namespace Thanabardi.FantasySnake.Core.FantasySnakeSO
@@ -53,14 +52,6 @@ namespace Thanabardi.FantasySnake.Core.FantasySnakeSO
         {
             get => FormatDamageMultiplierDict(_damageMultipliers);
         }
-
-        // [SerializeField]
-        // private Hero[] _heroPrefabs;
-        // public Hero[] HeroPrefabs => _heroPrefabs;
-
-        // [SerializeField]
-        // private Monster[] _monsterPrefabs;
-        // public Monster[] MonsterPrefabs => _monsterPrefabs;
 
         private (int min, int max) FormatStatTuple(int _minvalue, int _maxValue)
         {

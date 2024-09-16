@@ -25,14 +25,14 @@ namespace Thanabardi.FantasySnake.Core.UI
             _playButton.Select();
         }
 
-        private void Awake()
+        private void OnEnable()
         {
             _playButton.onClick.AddListener(OnPlayButtonClickedHandler);
             _settingButton.onClick.AddListener(OnSettingButtonClickedHandler);
             _exitButton.onClick.AddListener(OnExitButtonClickedHandler);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _playButton.onClick.RemoveListener(OnPlayButtonClickedHandler);
             _settingButton.onClick.RemoveListener(OnSettingButtonClickedHandler);

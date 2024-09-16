@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
-using Thanabardi.FantasySnake.Core.GameCharacter;
+using Thanabardi.FantasySnake.Core.GameWorld.Character;
 using Thanabardi.FantasySnake.Core.GameState;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Utility;
@@ -11,9 +11,7 @@ namespace Thanabardi.FantasySnake.Core.System
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField]
         private CinemachineVirtualCamera _virtualCamera;
-
         private GridManager _gridManager;
         private SpawnWorldObjectUtility _spawnWorldObjectUtility;
         private PlayerActionManager _playerActionManager;
@@ -22,6 +20,7 @@ namespace Thanabardi.FantasySnake.Core.System
 
         private void Awake()
         {
+            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
             _gridManager = FindObjectOfType<GridManager>();
             _spawnWorldObjectUtility = FindObjectOfType<SpawnWorldObjectUtility>();
             _playerActionManager = FindObjectOfType<PlayerActionManager>();
@@ -73,7 +72,10 @@ namespace Thanabardi.FantasySnake.Core.System
                             OnHitHero(hero, gridTile);
                             break;
                         case Monster monster:
-                            OnHitMonster(player, monster, gridTile);
+                            OnHitMonster(player, monster);
+                            break;
+                        case Obstacle obstacle:
+                            OnHitObstacle(player, obstacle);
                             break;
                         default:
                             _playerActionManager.PlayerMoveHandler(_playerQueue, gridTile);
@@ -100,7 +102,7 @@ namespace Thanabardi.FantasySnake.Core.System
             _spawnWorldObjectUtility.SpawnCharacters(typeof(Hero));
         }
 
-        private void OnHitMonster(Hero player, Monster monster, GridTile gridTile)
+        private void OnHitMonster(Hero player, Monster monster)
         {
             bool removePlayer = false;
             bool removeMonster = false;
@@ -124,6 +126,22 @@ namespace Thanabardi.FantasySnake.Core.System
                 _spawnWorldObjectUtility.SpawnCharacters(typeof(Monster));
                 _gridManager.RemoveWorldItem(monster);
             }
+        }
+
+        private void OnHitObstacle(Hero player, Obstacle obstacle)
+        {
+            player.OnHit(obstacle, () =>
+            {
+                _playerQueue.Dequeue();
+                if (_playerQueue.Count == 0)
+                {
+                    GameStateManager.Instance.GoToState((int)GameStates.State.Menu);
+                    return;
+                }
+                _playerActionManager.PlayerDiedHandler(_playerQueue);
+                _gridManager.RemoveWorldItem(player);
+                UpdateVirtualCamera();
+            });
         }
 
         private void UpdateVirtualCamera()

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Thanabardi.FantasySnake.Core.FantasySnakeSO;
-using Thanabardi.FantasySnake.Core.GameCharacter;
+using Thanabardi.FantasySnake.Core.GameWorld.Character;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Core.System;
 using UnityEngine;
@@ -12,20 +12,17 @@ namespace Thanabardi.FantasySnake.Utility
 {
     public class SpawnWorldObjectUtility : MonoBehaviour
     {
-
+        [Header("Spawn Configuration")]
         [SerializeField, Min(1)]
         int initHeroSpawnNumber = 1;
         [SerializeField, Min(1)]
         int initMonsterSpawnNumber = 1;
-
-        [SerializeField]
-        private GameObject[] _obstraclePrefabs;
-
-        [SerializeField]
-        private Character[] _characterPrefabs;
-
         [SerializeField]
         private SpawnChance[] _spawnChances;
+
+        [Space(20)]
+        [SerializeField]
+        private Character[] _characterPrefabs;
 
         private GridManager _gridManager;
 
@@ -105,7 +102,7 @@ namespace Thanabardi.FantasySnake.Utility
                     List<Character> characterPrefabs = _characterClassDict[characterclass][type];
                     Character characterPrefab = characterPrefabs[Random.Range(0, characterPrefabs.Count)];
                     Character character = Instantiate(characterPrefab, gridTile.transform.position, Quaternion.identity);
-                    _gridManager.PlaceWorldItem(character, gridTile);
+                    _gridManager.AddItemOnTile(character, gridTile);
                     return character;
                 }
             }

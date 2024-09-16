@@ -1,6 +1,7 @@
 using Thanabardi.FantasySnake.Core.GameScene;
 using Thanabardi.FantasySnake.Core.System;
 using Thanabardi.FantasySnake.Core.UI;
+using Thanabardi.FantasySnake.Utility;
 using Thanabardi.Generic.Core.StateSystem;
 using UnityEngine;
 
@@ -19,6 +20,8 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
                 _menuPanel.OnPlayButtonClicked += PlayGame;
                 _menuPanel.OnSettingButtonClicked += Setting;
                 _menuPanel.OnExitButtonClicked += ExitGame;
+
+                SoundManager.Instance.PlaySound2D(SoundManager.Instance.MenuMusic);
             });
         }
 
@@ -29,6 +32,8 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
             _menuPanel.OnPlayButtonClicked -= PlayGame;
             _menuPanel.OnSettingButtonClicked -= Setting;
             _menuPanel.OnExitButtonClicked -= ExitGame;
+
+            SoundManager.Instance.StopSound2D(SoundManager.Instance.MenuMusic);
         }
 
         private void PlayGame()
@@ -38,7 +43,7 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
 
         private void Setting()
         {
-            GameStateManager.Instance.GoToState((int)GameStates.State.Setting);
+            UIManager.Instance.SetPanelActive(UIManager.UIKey.SettingPanel, true);
         }
 
         private void ExitGame()

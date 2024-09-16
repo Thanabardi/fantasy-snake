@@ -25,6 +25,9 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
                 _playerActionUtility.OnPlayerMove += _gameManager.MovePlayerHandler;
                 _playerActionUtility.OnRotateOrderLeft += _gameManager.RotateOrderLeftHandler;
                 _playerActionUtility.OnRotateOrderRight += _gameManager.RotateOrderRightHandler;
+
+                SoundManager.Instance.PlaySound2D(SoundManager.Instance.GameplayMusic);
+                SoundManager.Instance.PlaySound2D(SoundManager.Instance.CaveAMB);
             });
         }
 
@@ -37,6 +40,9 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
             _playerActionUtility.OnPlayerMove -= _gameManager.MovePlayerHandler;
             _playerActionUtility.OnRotateOrderLeft -= _gameManager.RotateOrderLeftHandler;
             _playerActionUtility.OnRotateOrderRight -= _gameManager.RotateOrderRightHandler;
+
+            SoundManager.Instance.StopSound2D(SoundManager.Instance.GameplayMusic);
+            SoundManager.Instance.StopSound2D(SoundManager.Instance.CaveAMB);
         }
     }
 }

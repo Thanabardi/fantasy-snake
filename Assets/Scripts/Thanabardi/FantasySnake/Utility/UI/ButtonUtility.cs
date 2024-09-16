@@ -16,19 +16,19 @@ namespace Thanabardi.FantasySnake.Utility.UI
         public void OnPointerClick(PointerEventData eventData)
         {
             OnPointerClickButton?.Invoke();
-            // play sound
+            SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.UIClickSFX);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             OnPointerEnterButton?.Invoke();
-            // play sound
+            SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.UIHoverSFX);
         }
 
         public void OnSelect(BaseEventData eventData)
         {
             OnSelectButton?.Invoke();
-            // play sound
+            SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.UIHoverSFX);
         }
     }
 }

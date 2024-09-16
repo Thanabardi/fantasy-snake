@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameCharacter;
+using Thanabardi.FantasySnake.Core.GameWorld.Character;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

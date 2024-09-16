@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameCharacter;
+using Thanabardi.FantasySnake.Core.GameWorld.Character;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Core.System;
 using UnityEngine;
@@ -53,7 +53,7 @@ namespace Thanabardi.FantasySnake.Utility
                 Debug.LogError("the number of Player Grid Tiles and Player in queue are mismatch");
                 return;
             }
-
+            SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.WalkSFX);
             GridTile[] playerTileArray = _playerTileQueue.ToArray();
             Hero[] playerArray = players.ToArray();
             int lenght = playerArray.Length;
@@ -61,7 +61,8 @@ namespace Thanabardi.FantasySnake.Utility
             {
                 GridTile destination = playerTileArray[(lenght - 1) - i];
                 playerArray[i].TurnLookAt(destination.transform.position);
-                _gridManager.PlaceWorldItem(playerArray[i], destination);
+                playerArray[i].transform.position = destination.transform.position;
+                _gridManager.AddItemOnTile(playerArray[i], destination);
             }
         }
     }

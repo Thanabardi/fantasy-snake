@@ -1,22 +1,28 @@
 using UnityEngine;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using System.Collections.Generic;
-using UnityEditor.Rendering.BuiltIn.ShaderGraph;
-using UnityEngine.UIElements;
+using System;
+using Random = UnityEngine.Random;
 
 namespace Thanabardi.FantasySnake.Core.System
 {
     public class GridManager : MonoBehaviour
     {
+        [Header("Border Size")]
         [SerializeField]
         private int _boardWidth;
         [SerializeField]
         private int _boardHeight;
 
+        [Header("Map Tile")]
         [SerializeField]
         private GridTile _gridTile;
         [SerializeField]
         private GameObject[] _wallTiles;
+
+        [Space(20)]
+        [SerializeField]
+        private Obstacle[] _obstacles;
 
         private GridTile[,] _gridTiles;
 
@@ -31,6 +37,7 @@ namespace Thanabardi.FantasySnake.Core.System
             _emptyGridTiles = new();
             _usedGridTiles = new();
             GenerateMap();
+            PlaceObstacle();
         }
 
         private void GenerateMap()
@@ -65,6 +72,49 @@ namespace Thanabardi.FantasySnake.Core.System
             }
         }
 
+        private void PlaceObstacle()
+        {
+            foreach (Obstacle obstacle in _obstacles)
+            {
+                List<GridTile> gridTiles = GetRandomEmptyTiles(obstacle.Width, obstacle.Height);
+                Vector3 position = gridTiles[0].transform.position;
+                Instantiate(obstacle, new Vector3(position.x, position.y + 0.01f, position.z), Quaternion.Euler(90, 0, 0));
+                foreach (GridTile gridTile in gridTiles)
+                {
+                    gridTile.SetContainedItem(obstacle);
+                    _emptyGridTiles.Remove(gridTile);
+                    // _usedGridTiles.Add(obstacle, gridTile);
+                }
+            }
+        }
+
+        public List<GridTile> GetRandomEmptyTiles(int width, int height)
+        {
+            List<GridTile> emptyTies = _emptyGridTiles;
+            List<GridTile> selectedTiles = new();
+            while (true)
+            {
+                GridTile gridTile = emptyTies[Random.Range(0, emptyTies.Count)];
+                emptyTies.Remove(gridTile);
+                selectedTiles.Clear();
+                for (int row = 0; row < width; row++)
+                {
+                    for (int col = 0; col < height; col++)
+                    {
+                        if (GetWorldAreaOffset(gridTile, row, col, out GridTile selectedTile) &&
+                            selectedTile.ContainedItem == null)
+                        {
+                            selectedTiles.Add(selectedTile);
+                        }
+                    }
+                }
+                if (selectedTiles.Count == width * height)
+                {
+                    return selectedTiles;
+                }
+            }
+        }
+
         private void SpawnWallHandler(Vector3 position, Quaternion quaternion, Transform parent, ref Queue<GameObject> _wallTileQueue)
         {
             if (_wallTileQueue.TryDequeue(out GameObject wall))
@@ -82,28 +132,11 @@ namespace Thanabardi.FantasySnake.Core.System
 
         public bool MoveWorldItemBy(WorldItem worldItem, int disX, int disY, out GridTile gridTile)
         {
-            GridTile currentGridTile = _usedGridTiles[worldItem];
-            gridTile = null;
-            if (currentGridTile == null)
-            {
-                Debug.Log($"there is no grid tile that contain {worldItem.name}");
-                return false;
-            }
-            int newRow = currentGridTile.GridRow + disX;
-            int newColumn = currentGridTile.GridColumn + disY;
-            // check next position is within world area
-            if ((newRow >= 0 && newRow < _boardWidth) &&
-                (newColumn >= 0 && newColumn < _boardHeight))
-            {
-                gridTile = _gridTiles[newRow, newColumn];
-                return true;
-            }
-            return false;
+            return GetWorldAreaOffset(_usedGridTiles[worldItem], disX, disY, out gridTile);
         }
 
-        public void PlaceWorldItem(WorldItem worldItem, GridTile destination)
+        public void AddItemOnTile(WorldItem worldItem, GridTile destination)
         {
-            worldItem.transform.position = destination.transform.position;
             // remove old grid tile on update position
             if (_usedGridTiles.TryGetValue(worldItem, out var usedGridTile))
             {
@@ -126,6 +159,21 @@ namespace Thanabardi.FantasySnake.Core.System
                 _usedGridTiles.Remove(worldItem);
                 // Destroy(worldItem.gameObject);
             }
+        }
+
+        private bool GetWorldAreaOffset(GridTile currentGridTile, int offsetX, int offsetY, out GridTile gridTile)
+        {
+            int newRow = currentGridTile.GridRow + offsetX;
+            int newColumn = currentGridTile.GridColumn + offsetY;
+            // check next position is within world area
+            if ((newRow >= 0 && newRow < _boardWidth) &&
+                (newColumn >= 0 && newColumn < _boardHeight))
+            {
+                gridTile = _gridTiles[newRow, newColumn];
+                return true;
+            }
+            gridTile = null;
+            return false;
         }
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameCharacter;
+using Thanabardi.FantasySnake.Core.GameWorld.Character;
 using Thanabardi.FantasySnake.Core.NewInputSystem;
 using UnityEngine;
 
@@ -39,7 +39,10 @@ namespace Thanabardi.FantasySnake.Utility.Animation
 
         private void OnAttackHandler()
         {
-            PlayAnimationQueue(TriggerActionAnimation(_animator, CharacterState.ATTACK, _currentAnimationState));
+            PlayAnimationQueue(TriggerActionAnimation(_animator, CharacterState.ATTACK, _currentAnimationState, () =>
+            {
+                SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.HitSFX);
+            }));
         }
 
         private void OnGetHitHandler(int damage)
@@ -57,6 +60,9 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             _character.transform.position = new Vector3(position.x, position.y, position.z + 0.01f);
             PlayAnimationQueue(TriggerActionAnimation(_animator, CharacterState.DEAD, _currentAnimationState, () =>
             {
+                SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.DeadSFX);
+            }, () =>
+            {
                 Destroy(_character.gameObject);
             }));
         }
@@ -73,8 +79,9 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             currentState = newState;
         }
 
-        private IEnumerator TriggerActionAnimation(Animator animator, string newState, string currentState, Action callback = null)
+        private IEnumerator TriggerActionAnimation(Animator animator, string newState, string currentState, Action OnPlay = null, Action OnFinished = null)
         {
+            OnPlay?.Invoke();
             ChangeAnimationState(animator, newState, ref currentState);
             float animationLenght = animator.GetCurrentAnimatorStateInfo(0).length;
             _isPlaying = true;
@@ -84,7 +91,7 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             _isPlaying = false;
             ChangeAnimationState(animator, CharacterState.IDLE, ref currentState);
             PlayAnimationQueue();
-            callback?.Invoke();
+            OnFinished?.Invoke();
         }
 
         private void PlayAnimationQueue(IEnumerator IEnumerator = null)
