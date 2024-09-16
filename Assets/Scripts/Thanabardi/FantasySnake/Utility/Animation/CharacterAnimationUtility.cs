@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameWorld.Character;
+using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.NewInputSystem;
 using UnityEngine;
 
@@ -94,10 +94,10 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             OnFinished?.Invoke();
         }
 
-        private void PlayAnimationQueue(IEnumerator IEnumerator = null)
+        private void PlayAnimationQueue(IEnumerator playIEnumerator = null)
         {
             // add new animation 
-            if (IEnumerator != null) { _animationQueue.Enqueue(IEnumerator); }
+            if (playIEnumerator != null) { _animationQueue.Enqueue(playIEnumerator); }
 
             // start animation in queue
             if (!_isPlaying && _animationQueue.Count > 0)

@@ -15,6 +15,7 @@ namespace Thanabardi.FantasySnake.Utility
 
         [Header("Music Audio Clips")]
         public AudioClipSO MenuMusic;
+        public AudioClipSO SettingMusic;
         public AudioClipSO GameplayMusic;
 
 
@@ -26,6 +27,7 @@ namespace Thanabardi.FantasySnake.Utility
         public AudioClipSO[] WalkSFX;
         public AudioClipSO[] HitSFX;
         public AudioClipSO[] DeadSFX;
+        public AudioClipSO[] PotionDropSFX;
         public AudioClipSO[] UIHoverSFX;
         public AudioClipSO[] UIClickSFX;
 
@@ -44,6 +46,12 @@ namespace Thanabardi.FantasySnake.Utility
         public void PlaySound2D(AudioClipSO audioClipSO, int step = _LOG_FADE_STEP)
         {
             // play sound by add new AudioSource component into SoundManager
+            if (_audioSourceDict.ContainsKey(audioClipSO))
+            {
+                Destroy(_audioSourceDict[audioClipSO]);
+                _audioSourceDict.Remove(audioClipSO);
+                Debug.LogWarning($"{audioClipSO.name} is currently being played");
+            }
             AudioSource audioSource = gameObject.AddComponent<AudioSource>();
             _audioSourceDict.Add(audioClipSO, audioSource);
             PlaySound(audioSource, audioClipSO);

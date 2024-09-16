@@ -43,7 +43,7 @@ namespace Thanabardi.FantasySnake.Core.GameState.Model
 
         private void Setting()
         {
-            UIManager.Instance.SetPanelActive(UIManager.UIKey.SettingPanel, true);
+            GameStateManager.Instance.GoToState((int)GameStates.State.Setting);
         }
 
         private void ExitGame()

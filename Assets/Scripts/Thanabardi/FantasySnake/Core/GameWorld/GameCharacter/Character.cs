@@ -4,21 +4,28 @@ using Thanabardi.FantasySnake.Core.GameWorld;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Thanabardi.FantasySnake.Core.GameWorld.Character
+namespace Thanabardi.FantasySnake.Core.GameWorld.GameCharacter
 {
     public abstract class Character : WorldItem
     {
         [SerializeField]
         private CharacterClassSO _characterClass;
         public CharacterClassSO CharacterClass => _characterClass;
+
         public int Health { get; private set; }
         public int Attack { get; private set; }
         public int Defense { get; private set; }
 
+
         public event Action<int> OnHealthUpdate;
-        public event Action<int> OnGetHit;
+        public event Action<int> OnAttackUpdate;
+        public event Action<int> OnDefenseUpdate;
+
+        public event Action<int> OnGetHit;        
         public event Action OnAttack;
         public event Action OnDie;
+
+        private int _maxHealth;
 
         public void Awake()
         {
@@ -34,6 +41,7 @@ namespace Thanabardi.FantasySnake.Core.GameWorld.Character
                 Attack = 1;
                 Defense = 1;
             }
+            _maxHealth = Health;
         }
 
         public void TurnLookAt(Vector3 direction)
@@ -69,20 +77,22 @@ namespace Thanabardi.FantasySnake.Core.GameWorld.Character
             }
         }
 
-        protected virtual void UpdateHealth(int health)
+        public virtual void UpdateHealth(int health)
         {
-            Health = Mathf.Max(0, health);
+            Health = Mathf.Clamp(health, 0, _maxHealth);
             OnHealthUpdate?.Invoke(health);
         }
 
-        protected virtual void UpdateAttack(int attack)
+        public virtual void UpdateAttack(int attack)
         {
-            Attack = attack;
+            Attack = Mathf.Max(0, attack);
+            OnAttackUpdate?.Invoke(Attack);
         }
 
-        protected virtual void UpdateDefense(int defense)
+        public virtual void UpdateDefense(int defense)
         {
-            Defense = defense;
+            Defense = Mathf.Max(0, defense);
+            OnDefenseUpdate?.Invoke(Defense);
         }
     }
 }

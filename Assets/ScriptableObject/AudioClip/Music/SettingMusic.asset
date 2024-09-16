@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 44d06955c11b1f04c863fd0ad666c4f2, type: 3}
-  m_Name: CharacterDead2
+  m_Name: SettingMusic
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: ef1b4ade43df13e45a059e9924266358, type: 3}
-  _audioMixerGroup: {fileID: 24300002, guid: 159247585b010b64a8967696593e2d6e, type: 2}
-  _isLoop: 0
+  _audioClip: {fileID: 8300000, guid: 4053410207d8f5f47a15a5fb76985308, type: 3}
+  _audioMixerGroup: {fileID: 24300002, guid: f9ccacc2d59e3b642af99ac23b43af11, type: 2}
+  _isLoop: 1
   _volume: 1
-  _pitch: 0.5
+  _pitch: 1

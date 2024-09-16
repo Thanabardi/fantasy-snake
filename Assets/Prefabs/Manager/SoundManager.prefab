@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mainAudioMixer: {fileID: 24100000, guid: 80b0365c374e1194e8f6b6352491b846, type: 2}
   MenuMusic: {fileID: 11400000, guid: c0ed97d95ba973b4aac453b1fd26b296, type: 2}
+  SettingMusic: {fileID: 11400000, guid: 6e38e8fec673ed747bfbe0bd70b41082, type: 2}
   GameplayMusic: {fileID: 11400000, guid: 0e276449588a3d746ade11b93ebf3018, type: 2}
   CaveAMB: {fileID: 11400000, guid: 482579480711b2d49a469e4d69a75148, type: 2}
   WalkSFX:
@@ -65,6 +66,12 @@ MonoBehaviour:
   DeadSFX:
   - {fileID: 11400000, guid: d3caa5eaeb734df4e9e7714962e300ce, type: 2}
   - {fileID: 11400000, guid: ab0c6318a4396a34ebf1c76279cc49c5, type: 2}
+  PotionDropSFX:
+  - {fileID: 11400000, guid: b36dce588ad16054590f3102035063f8, type: 2}
+  - {fileID: 11400000, guid: 93a06718b26fab34fb5249f38d4d0fcd, type: 2}
+  - {fileID: 11400000, guid: da0523d8741160a488b9770b6d78b455, type: 2}
+  - {fileID: 11400000, guid: fbf17c55077ffec409dd2d322dcc96a0, type: 2}
+  - {fileID: 11400000, guid: 9d261bf5b4d86dd4c97e81e7214ff64f, type: 2}
   UIHoverSFX:
   - {fileID: 11400000, guid: 0c23daf76a981a54185ff1813292a49d, type: 2}
   UIClickSFX:

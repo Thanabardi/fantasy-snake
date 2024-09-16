@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameWorld.Character;
+using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Core.System;
 using UnityEngine;
+using System.Collections;
 
 namespace Thanabardi.FantasySnake.Utility
 {

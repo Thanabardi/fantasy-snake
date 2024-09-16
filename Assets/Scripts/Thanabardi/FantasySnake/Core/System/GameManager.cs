@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
-using Thanabardi.FantasySnake.Core.GameWorld.Character;
+using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.GameState;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Utility;
 using UnityEngine;
+using Thanabardi.FantasySnake.Core.GameWorld.GamePotion;
 
 namespace Thanabardi.FantasySnake.Core.System
 {
@@ -77,6 +78,10 @@ namespace Thanabardi.FantasySnake.Core.System
                         case Obstacle obstacle:
                             OnHitObstacle(player, obstacle);
                             break;
+                        case Potion potion:
+                            OnHitPotion(player, potion);
+                            _playerActionManager.PlayerMoveHandler(_playerQueue, gridTile);
+                            break;
                         default:
                             _playerActionManager.PlayerMoveHandler(_playerQueue, gridTile);
                             break;
@@ -123,8 +128,12 @@ namespace Thanabardi.FantasySnake.Core.System
             if (removeMonster)
             {
                 // spawn new monster before remove to prevent spawing at the same location
-                _spawnWorldObjectUtility.SpawnCharacters(typeof(Monster));
-                _gridManager.RemoveWorldItem(monster);
+                if (_gridManager.TryGetGridTile(monster, out GridTile gridTile))
+                {
+                    _spawnWorldObjectUtility.SpawnCharacters(typeof(Monster));
+                    _gridManager.RemoveWorldItem(monster);
+                    _spawnWorldObjectUtility.SpawnPotion(gridTile);
+                }
             }
         }
 
@@ -141,6 +150,16 @@ namespace Thanabardi.FantasySnake.Core.System
                 _playerActionManager.PlayerDiedHandler(_playerQueue);
                 _gridManager.RemoveWorldItem(player);
                 UpdateVirtualCamera();
+            });
+        }
+
+        private void OnHitPotion(Hero player, Potion potion)
+        {
+            potion.OnHit(player, () =>
+            {
+                SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.PotionDropSFX);
+                _gridManager.RemoveWorldItem(potion);
+                Destroy(potion.gameObject);
             });
         }
 

@@ -12,6 +12,7 @@ namespace Thanabardi.FantasySnake.Core.GameState
             _states ??= new StateModel[]
             {
                 new MenuStateModel(),
+                new SettingStateModel(),
                 new GameStateModel(),
             };
             return _states;
@@ -20,6 +21,7 @@ namespace Thanabardi.FantasySnake.Core.GameState
         public enum State
         {
             Menu,
+            Setting,
             GamePlay,
         }
     }

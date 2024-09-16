@@ -1,5 +1,5 @@
+using System;
 using Thanabardi.FantasySnake.Core.GameState;
-using Thanabardi.FantasySnake.Core.System;
 using Thanabardi.FantasySnake.Utility;
 using TMPro;
 using UnityEngine;
@@ -34,19 +34,28 @@ namespace Thanabardi.FantasySnake.Core.UI
         [SerializeField]
         private TextMeshProUGUI _sfxVolumeText;
 
+        public event Action OnExitButtonClicked;
+        public event Action OnMenuButtonClicked;
+
         public void SetActive(bool isActive)
         {
             gameObject.SetActive(isActive);
+            if (isActive)
+            {
+                if (GameStateManager.Instance.PreviousState.StateID == (int)GameStates.State.Menu)
+                {
+                    _menuButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _menuButton.gameObject.SetActive(true);
+                }
+            }
         }
 
         private void OnEnable()
         {
             _exitButton.Select();
-            if (GameStateManager.Instance.CurrentState.StateID == (int)GameStates.State.Menu)
-            {
-                _menuButton.gameObject.SetActive(false);
-            }
-
             _exitButton.onClick.AddListener(OnExitButtonClickedHandler);
             _menuButton.onClick.AddListener(OnMenuButtonClickedHandler);
             _masterVolumeSlider.onValueChanged.AddListener(OnMainVolumeChangedHandler);
@@ -73,12 +82,12 @@ namespace Thanabardi.FantasySnake.Core.UI
 
         private void OnExitButtonClickedHandler()
         {
-            UIManager.Instance.SetPanelActive(UIManager.UIKey.SettingPanel, false);
+            OnExitButtonClicked?.Invoke();
         }
 
         private void OnMenuButtonClickedHandler()
         {
-            GameStateManager.Instance.GoToState((int)GameStates.State.Menu);
+            OnMenuButtonClicked?.Invoke();
         }
 
         private void OnMainVolumeChangedHandler(float value)

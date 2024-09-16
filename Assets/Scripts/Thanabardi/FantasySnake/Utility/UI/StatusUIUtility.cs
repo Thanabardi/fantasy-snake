@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Thanabardi.FantasySnake.Core.GameWorld.Character;
+using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -39,7 +39,9 @@ namespace Thanabardi.FantasySnake.Utility.UI
             if (_character is Monster)
             {
                 _healthBarColor = Color.red;
-            } else {
+            }
+            else
+            {
                 _healthBarColor = Color.green;
             }
         }
@@ -55,12 +57,21 @@ namespace Thanabardi.FantasySnake.Utility.UI
         {
             _character.OnHealthUpdate += OnHealthUpdateHandler;
             _character.OnGetHit += OnTakeDamageHandler;
+
+            _character.OnHealthUpdate += OnHealthUpdateHandler;
+            _character.OnDefenseUpdate += OnDefenseUpdateHandler;
+            _character.OnAttackUpdate += OnAttackUpdateHandler;
         }
 
         private void OnDisable()
         {
             _character.OnHealthUpdate -= OnHealthUpdateHandler;
             _character.OnGetHit -= OnTakeDamageHandler;
+
+            _character.OnHealthUpdate -= OnHealthUpdateHandler;
+            _character.OnDefenseUpdate -= OnDefenseUpdateHandler;
+            _character.OnAttackUpdate -= OnAttackUpdateHandler;
+
         }
 
         private void OnHealthUpdateHandler(int health)
@@ -96,6 +107,16 @@ namespace Thanabardi.FantasySnake.Utility.UI
             }
         }
 
+        private void OnAttackUpdateHandler(int attack)
+        {
+            InstantiateImage(_attackIcon, _attackBar.transform, Color.red);
+        }
+
+        private void OnDefenseUpdateHandler(int defense)
+        {
+            InstantiateImage(_defenseIcon, _defenseBar.transform, Color.blue);
+        }
+
         private void CreateHealthBar(int maxHealth)
         {
             for (int i = 0; i < maxHealth; i++)
@@ -109,8 +130,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
         {
             for (int i = 0; i < attackStat; i++)
             {
-                Image image = InstantiateImage(_attackIcon, _attackBar.transform, Color.red);
-                image.gameObject.AddComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
+                InstantiateImage(_attackIcon, _attackBar.transform, Color.red);
             }
         }
 
@@ -118,8 +138,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
         {
             for (int i = 0; i < defenseStat; i++)
             {
-                Image image = InstantiateImage(_defenseIcon, _defenseBar.transform, Color.blue);
-                image.gameObject.AddComponent<AspectRatioFitter>().aspectMode = AspectRatioFitter.AspectMode.HeightControlsWidth;
+                InstantiateImage(_defenseIcon, _defenseBar.transform, Color.blue);
             }
         }
 

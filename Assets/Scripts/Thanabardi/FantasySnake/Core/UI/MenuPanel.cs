@@ -22,11 +22,12 @@ namespace Thanabardi.FantasySnake.Core.UI
         public void SetActive(bool isActive)
         {
             gameObject.SetActive(isActive);
-            _playButton.Select();
         }
 
         private void OnEnable()
         {
+            _playButton.Select();
+
             _playButton.onClick.AddListener(OnPlayButtonClickedHandler);
             _settingButton.onClick.AddListener(OnSettingButtonClickedHandler);
             _exitButton.onClick.AddListener(OnExitButtonClickedHandler);
@@ -47,6 +48,7 @@ namespace Thanabardi.FantasySnake.Core.UI
         private void OnSettingButtonClickedHandler()
         {
             OnSettingButtonClicked?.Invoke();
+            SetActive(false);
         }
 
         private void OnExitButtonClickedHandler()

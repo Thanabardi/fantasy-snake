@@ -1,8 +1,6 @@
 using UnityEngine;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using System.Collections.Generic;
-using System;
-using Random = UnityEngine.Random;
 
 namespace Thanabardi.FantasySnake.Core.System
 {
@@ -113,6 +111,11 @@ namespace Thanabardi.FantasySnake.Core.System
                     return selectedTiles;
                 }
             }
+        }
+
+        public bool TryGetGridTile(WorldItem worldItem, out GridTile gridTile)
+        {
+            return _usedGridTiles.TryGetValue(worldItem, out gridTile);
         }
 
         private void SpawnWallHandler(Vector3 position, Quaternion quaternion, Transform parent, ref Queue<GameObject> _wallTileQueue)

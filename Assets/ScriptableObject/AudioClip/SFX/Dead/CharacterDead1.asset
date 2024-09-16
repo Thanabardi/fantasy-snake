@@ -16,4 +16,4 @@ MonoBehaviour:
   _audioMixerGroup: {fileID: 24300002, guid: 159247585b010b64a8967696593e2d6e, type: 2}
   _isLoop: 0
   _volume: 1
-  _pitch: 1
+  _pitch: 0.5

@@ -7,8 +7,6 @@ namespace Thanabardi.FantasySnake.Utility.Audio
     public static class FadeSound
     {
         private const int _LOG_FADE_STEP = 100;
-        private const int _LOG_ROLL_OFF_SCALE = 1;
-        private const int _LOG_ROLL_OFF_MIN_DISTANCE = 1;
 
         public static IEnumerator Fade(AudioSource audioSource, float targetIntensity, int step = _LOG_FADE_STEP, Action callback = null)
         {
@@ -36,12 +34,6 @@ namespace Thanabardi.FantasySnake.Utility.Audio
             }
             audioSource.volume = targetIntensity;
             callback?.Invoke();
-        }
-
-        public static float LogarithmicRollOff(float distance)
-        {
-            // return the audio amplitude base on distance
-            return Mathf.Clamp01(_LOG_ROLL_OFF_MIN_DISTANCE * (1 / (1 + _LOG_ROLL_OFF_SCALE * (Mathf.Abs(distance) - 1))));
         }
     }
 }

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 840181419400102230}
-  - component: {fileID: 6333080323856506722}
+  - component: {fileID: 232768716214812826}
   m_Layer: 5
   m_Name: DefenceBar
   m_TagString: Untagged
@@ -36,7 +36,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6333080323856506722
+--- !u!114 &232768716214812826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1395516918774167766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -53,15 +53,13 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 0.02
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 0.09, y: 0.09}
+  m_Spacing: {x: 0.02, y: 0.02}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1438505315248320277
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +71,8 @@ GameObject:
   - component: {fileID: 5481734691212515873}
   - component: {fileID: 6430661064203848607}
   - component: {fileID: 8671465243112532333}
-  - component: {fileID: 1153484647753468670}
+  - component: {fileID: 7178183436359563003}
+  - component: {fileID: 333530425016052866}
   m_Layer: 5
   m_Name: StatusPrefab
   m_TagString: Untagged
@@ -100,7 +99,7 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!223 &6430661064203848607
 Canvas:
   m_ObjectHideFlags: 0
@@ -145,7 +144,33 @@ MonoBehaviour:
   _classIcon: {fileID: 5247089769650222167}
   _popupStatusTextPrefab: {fileID: 1917165220927811383, guid: 0277a65e518dbc046a149e10eb9ba982,
     type: 3}
---- !u!114 &1153484647753468670
+--- !u!114 &7178183436359563003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438505315248320277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 1
+--- !u!114 &333530425016052866
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 625729107705137793}
-  - component: {fileID: 6811443386496081776}
+  - component: {fileID: 2477892381921998212}
   m_Layer: 5
   m_Name: AttackBar
   m_TagString: Untagged
@@ -195,7 +220,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6811443386496081776
+--- !u!114 &2477892381921998212
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -204,7 +229,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3968209720046456246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
@@ -212,15 +237,13 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 0.02
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 1
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
+  m_ChildAlignment: 0
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 0.09, y: 0.09}
+  m_Spacing: {x: 0.02, y: 0.02}
+  m_Constraint: 0
+  m_ConstraintCount: 6
 --- !u!1 &4459467911447513572
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +299,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 6
   m_Spacing: 0.04
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -320,7 +343,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.96, y: 0.1}
+  m_SizeDelta: {x: 0.96, y: 0.06}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3088223847569946365
 MonoBehaviour:
@@ -366,7 +389,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8316582476821234943}
   - component: {fileID: 4545124408210190704}
-  - component: {fileID: 9072224729614788785}
+  - component: {fileID: 1727570437940695536}
   m_Layer: 5
   m_Name: StatusBar
   m_TagString: Untagged
@@ -390,10 +413,10 @@ RectTransform:
   - {fileID: 2394957082099672186}
   m_Father: {fileID: 5481734691212515873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0.48, y: -0.15}
+  m_SizeDelta: {x: 0.96, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4545124408210190704
 MonoBehaviour:
@@ -415,13 +438,13 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 0.04
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &9072224729614788785
+--- !u!114 &1727570437940695536
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,6 +468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6722712874173956806}
   - component: {fileID: 8952454042559947147}
+  - component: {fileID: 6951937160986333261}
   m_Layer: 5
   m_Name: DefenceAtackContainer
   m_TagString: Untagged
@@ -468,10 +492,10 @@ RectTransform:
   - {fileID: 840181419400102230}
   m_Father: {fileID: 5469354962002824097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.72, y: 0.2}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0.6, y: -0.19000001}
+  m_SizeDelta: {x: 0.72, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8952454042559947147
 MonoBehaviour:
@@ -491,7 +515,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 0.02
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -499,6 +523,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &6951937160986333261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6965380195513759282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &7686059944347915129
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,7 +572,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.2, y: 0.2}
+  m_SizeDelta: {x: 0.2, y: 0.19999999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5808655068748796147
 CanvasRenderer:

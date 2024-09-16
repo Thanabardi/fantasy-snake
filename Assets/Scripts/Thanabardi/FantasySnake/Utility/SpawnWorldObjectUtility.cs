@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Thanabardi.FantasySnake.Core.FantasySnakeSO;
-using Thanabardi.FantasySnake.Core.GameWorld.Character;
+using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.GameWorld;
 using Thanabardi.FantasySnake.Core.System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Thanabardi.FantasySnake.Core.GameWorld.GamePotion;
 
 namespace Thanabardi.FantasySnake.Utility
 {
@@ -23,12 +24,15 @@ namespace Thanabardi.FantasySnake.Utility
         [Space(20)]
         [SerializeField]
         private Character[] _characterPrefabs;
+        [SerializeField]
+        private Potion[] _potionPrefabs;
 
         private GridManager _gridManager;
 
         private Dictionary<CharacterClassSO, Dictionary<Type, List<Character>>> _characterClassDict;
         private CharacterClassSO[] _characterClasses;
         private float _maxClassSpawnProb = 0;
+        private float _maxPotionSpawnProb = 0;
         private float _maxSpawnChances = 0;
 
         private void Awake()
@@ -38,6 +42,9 @@ namespace Thanabardi.FantasySnake.Utility
 
             _characterClasses = _characterClassDict.Keys.OrderBy(c => c.SpawnRate).ToArray();
             _maxClassSpawnProb = _characterClasses.Last()?.SpawnRate ?? 0;
+
+            _potionPrefabs = _potionPrefabs.OrderBy(c => c.SpawnRate).ToArray();
+            _maxPotionSpawnProb = _potionPrefabs.Last()?.SpawnRate ?? 0;
 
             _spawnChances = _spawnChances.OrderBy(c => c.Chance).ToArray();
             _maxSpawnChances = _spawnChances.Last()?.Chance ?? 0;
@@ -81,7 +88,6 @@ namespace Thanabardi.FantasySnake.Utility
             {
                 if (randomVar <= spawnChance.Chance / _maxSpawnChances)
                 {
-                    Debug.Log(spawnChance.SpawnNumber);
                     for (int i = 0; i < spawnChance.SpawnNumber; i++)
                     {
                         SpawnCharacter(type);
@@ -104,6 +110,23 @@ namespace Thanabardi.FantasySnake.Utility
                     Character character = Instantiate(characterPrefab, gridTile.transform.position, Quaternion.identity);
                     _gridManager.AddItemOnTile(character, gridTile);
                     return character;
+                }
+            }
+            return null;
+        }
+
+        public Potion SpawnPotion(GridTile gridTile = null)
+        {
+            gridTile ??= _gridManager.GetRandomEmptyTile();
+            float randomVar = Random.Range(0f, 1f);
+            foreach (Potion potionPrefab in _potionPrefabs)
+            {
+                if (randomVar <= potionPrefab.SpawnRate / _maxPotionSpawnProb)
+                {
+                    Vector3 position = gridTile.transform.position;
+                    Potion potion = Instantiate(potionPrefab, new Vector3(position.x, position.y + 0.1f, position.z), Quaternion.identity);
+                    _gridManager.AddItemOnTile(potion, gridTile);
+                    return potion;
                 }
             }
             return null;
