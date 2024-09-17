@@ -12,6 +12,7 @@ namespace Thanabardi.FantasySnake.Utility.Audio
         {
             float volumeLevel = audioSource.volume;
             float newVolume, level;
+
             //logarithmically increasing or decreasing volume
             for (int i = Mathf.CeilToInt(step / 10f); i <= step; i++)
             {

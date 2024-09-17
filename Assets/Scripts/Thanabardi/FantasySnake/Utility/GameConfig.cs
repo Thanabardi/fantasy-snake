@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Thanabardi.Generic.Utility
+namespace Thanabardi.FantasySnake.Utility
 {
     public static class GameConfig
     {
@@ -29,13 +29,8 @@ namespace Thanabardi.Generic.Utility
     {
         public int BoardWidth;
         public int BoardHeight;
-        public int InitSpawnNumber;
-        public SpawnChance[] SpawnChance;
-    }
-
-    public class SpawnChance
-    {
-        public float Rate;
-        public int SpawnNumber;
+        public int InitMonsterSpawnNumber;
+        public int InitHeroSpawnNumber;
+        public SpawnWorldObjectUtility.SpawnChance[] SpawnChance;
     }
 }

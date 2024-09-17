@@ -1,6 +1,5 @@
 using System;
 using Thanabardi.FantasySnake.Core.FantasySnakeSO;
-using Thanabardi.FantasySnake.Core.GameWorld;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,14 +15,13 @@ namespace Thanabardi.FantasySnake.Core.GameWorld.GameCharacter
         public int Attack { get; private set; }
         public int Defense { get; private set; }
 
-
         public event Action<int> OnHealthUpdate;
         public event Action<int> OnAttackUpdate;
         public event Action<int> OnDefenseUpdate;
 
-        public event Action<int> OnGetHit;        
+        public event Action<int> OnGetHit;
         public event Action OnAttack;
-        public event Action OnDie;
+        public event Action OnDied;
 
         private int _maxHealth;
 
@@ -44,39 +42,6 @@ namespace Thanabardi.FantasySnake.Core.GameWorld.GameCharacter
             _maxHealth = Health;
         }
 
-        public void TurnLookAt(Vector3 direction)
-        {
-            if (direction.x > transform.position.x)
-            {
-                // other is on the right side
-                GetComponent<SpriteRenderer>().flipX = true;
-            }
-            else if (direction.x < transform.position.x)
-            {
-                // other is on the left side
-                GetComponent<SpriteRenderer>().flipX = false;
-            }
-        }
-
-        public void CharacterAttack()
-        {
-            OnAttack?.Invoke();
-        }
-
-        protected void CharacterDied()
-        {
-            OnDie?.Invoke();
-        }
-
-        protected virtual void TakeDamage(int damage)
-        {
-            OnGetHit?.Invoke(damage);
-            if (damage > 0)
-            {
-                UpdateHealth(Health - damage);
-            }
-        }
-
         public virtual void UpdateHealth(int health)
         {
             Health = Mathf.Clamp(health, 0, _maxHealth);
@@ -93,6 +58,25 @@ namespace Thanabardi.FantasySnake.Core.GameWorld.GameCharacter
         {
             Defense = Mathf.Max(0, defense);
             OnDefenseUpdate?.Invoke(Defense);
+        }
+
+        protected virtual void CharacterAttack()
+        {
+            OnAttack?.Invoke();
+        }
+
+        protected virtual void TakeDamage(int damage, Action onDestroy)
+        {
+            OnGetHit?.Invoke(damage);
+            if (damage > 0)
+            {
+                UpdateHealth(Health - damage);
+            }
+            if (damage >= Health)
+            {
+                onDestroy?.Invoke();
+                OnDied?.Invoke();
+            }
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using Thanabardi.FantasySnake.Core.FantasySnakeSO;
 using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.GameWorld;
-using Thanabardi.FantasySnake.Core.System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Thanabardi.FantasySnake.Core.GameWorld.GamePotion;
+using Thanabardi.FantasySnake.Core.GameSystem;
 
 namespace Thanabardi.FantasySnake.Utility
 {
@@ -15,9 +15,9 @@ namespace Thanabardi.FantasySnake.Utility
     {
         [Header("Spawn Configuration")]
         [SerializeField, Min(1)]
-        int initHeroSpawnNumber = 1;
+        private int _initHeroSpawnNumber = 1;
         [SerializeField, Min(1)]
-        int initMonsterSpawnNumber = 1;
+        private int _initMonsterSpawnNumber = 1;
         [SerializeField]
         private SpawnChance[] _spawnChances;
 
@@ -37,45 +37,29 @@ namespace Thanabardi.FantasySnake.Utility
 
         private void Awake()
         {
+            try
+            {
+                // load configuration with minimum spawn number of 1
+                _initHeroSpawnNumber = Mathf.Max(1, GameConfig.ConfigData.InitHeroSpawnNumber);
+                _initMonsterSpawnNumber = Mathf.Max(1, GameConfig.ConfigData.InitMonsterSpawnNumber);
+                _spawnChances = GameConfig.ConfigData.SpawnChance;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e);
+            }
             _gridManager = FindObjectOfType<GridManager>();
             InitializeCharacterDict();
-
-            _characterClasses = _characterClassDict.Keys.OrderBy(c => c.SpawnRate).ToArray();
-            _maxClassSpawnProb = _characterClasses.Last()?.SpawnRate ?? 0;
-
-            _potionPrefabs = _potionPrefabs.OrderBy(c => c.SpawnRate).ToArray();
-            _maxPotionSpawnProb = _potionPrefabs.Last()?.SpawnRate ?? 0;
-
-            _spawnChances = _spawnChances.OrderBy(c => c.Chance).ToArray();
-            _maxSpawnChances = _spawnChances.Last()?.Chance ?? 0;
-        }
-
-        private void InitializeCharacterDict()
-        {
-            _characterClassDict = new();
-            foreach (Character character in _characterPrefabs)
-            {
-                // check is the dictionary contains the character class
-                if (_characterClassDict.TryGetValue(character.CharacterClass, out var characterDict))
-                {
-                    // check is character class contains character type
-                    if (characterDict.TryGetValue(character.GetType(), out var characterList))
-                    {
-                        characterList.Add(character);
-                    }
-                    else { characterDict.Add(character.GetType(), new() { character }); }
-                }
-                else { _characterClassDict.Add(character.CharacterClass, new() { { character.GetType(), new() { character } } }); }
-            }
+            InitializeSpawnRate();
         }
 
         private void Start()
         {
-            for (int i = 0; i < initHeroSpawnNumber; i++)
+            for (int i = 0; i < _initHeroSpawnNumber; i++)
             {
                 SpawnCharacter(typeof(Hero));
             }
-            for (int i = 0; i < initMonsterSpawnNumber; i++)
+            for (int i = 0; i < _initMonsterSpawnNumber; i++)
             {
                 SpawnCharacter(typeof(Monster));
             }
@@ -99,7 +83,10 @@ namespace Thanabardi.FantasySnake.Utility
 
         public Character SpawnCharacter(Type type, GridTile gridTile = null)
         {
-            gridTile ??= _gridManager.GetRandomEmptyTile();
+            if (!gridTile && !_gridManager.TryGetRandomEmptyTile(out gridTile))
+            {
+                return null;
+            }
             float randomVar = Random.Range(0f, 1f);
             foreach (CharacterClassSO characterclass in _characterClasses)
             {
@@ -117,7 +104,10 @@ namespace Thanabardi.FantasySnake.Utility
 
         public Potion SpawnPotion(GridTile gridTile = null)
         {
-            gridTile ??= _gridManager.GetRandomEmptyTile();
+            if (!gridTile && !_gridManager.TryGetRandomEmptyTile(out gridTile))
+            {
+                return null;
+            }
             float randomVar = Random.Range(0f, 1f);
             foreach (Potion potionPrefab in _potionPrefabs)
             {
@@ -130,6 +120,38 @@ namespace Thanabardi.FantasySnake.Utility
                 }
             }
             return null;
+        }
+
+        private void InitializeCharacterDict()
+        {
+            _characterClassDict = new();
+            foreach (Character character in _characterPrefabs)
+            {
+                // check is the dictionary contains the character class
+                if (_characterClassDict.TryGetValue(character.CharacterClass, out var characterDict))
+                {
+                    // check is character class contains character type
+                    if (characterDict.TryGetValue(character.GetType(), out var characterList))
+                    {
+                        characterList.Add(character);
+                    }
+                    else { characterDict.Add(character.GetType(), new() { character }); }
+                }
+                else { _characterClassDict.Add(character.CharacterClass, new() { { character.GetType(), new() { character } } }); }
+            }
+        }
+
+        private void InitializeSpawnRate()
+        {
+            // sort and get max rate for each spawn items
+            _characterClasses = _characterClassDict.Keys.OrderBy(c => c.SpawnRate).ToArray();
+            _maxClassSpawnProb = _characterClasses.Last()?.SpawnRate ?? 0;
+
+            _potionPrefabs = _potionPrefabs.OrderBy(c => c.SpawnRate).ToArray();
+            _maxPotionSpawnProb = _potionPrefabs.Last()?.SpawnRate ?? 0;
+
+            _spawnChances = _spawnChances.OrderBy(c => c.Chance).ToArray();
+            _maxSpawnChances = _spawnChances.Last()?.Chance ?? 0;
         }
 
         [Serializable]

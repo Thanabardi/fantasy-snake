@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Thanabardi.FantasySnake.Core.GameSystem;
 using Thanabardi.FantasySnake.Core.GameWorld.GameCharacter;
 using Thanabardi.FantasySnake.Core.NewInputSystem;
 using UnityEngine;
@@ -27,14 +28,14 @@ namespace Thanabardi.FantasySnake.Utility.Animation
         {
             _character.OnGetHit += OnGetHitHandler;
             _character.OnAttack += OnAttackHandler;
-            _character.OnDie += OnDieHandler;
+            _character.OnDied += OnDiedHandler;
         }
 
         private void OnDisable()
         {
             _character.OnGetHit -= OnGetHitHandler;
             _character.OnAttack -= OnAttackHandler;
-            _character.OnDie -= OnDieHandler;
+            _character.OnDied -= OnDiedHandler;
         }
 
         private void OnAttackHandler()
@@ -53,11 +54,11 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             }
         }
 
-        private void OnDieHandler()
+        private void OnDiedHandler()
         {
-            // move character slightly to the back
+            // move character slightly to the front
             Vector3 position = _character.transform.position;
-            _character.transform.position = new Vector3(position.x, position.y, position.z + 0.01f);
+            _character.transform.position = new Vector3(position.x, position.y, position.z - 0.01f);
             PlayAnimationQueue(TriggerActionAnimation(_animator, CharacterState.DEAD, _currentAnimationState, () =>
             {
                 SoundManager.Instance.RandomPlaySoundOneshot(SoundManager.Instance.DeadSFX);
@@ -85,9 +86,9 @@ namespace Thanabardi.FantasySnake.Utility.Animation
             ChangeAnimationState(animator, newState, ref currentState);
             float animationLenght = animator.GetCurrentAnimatorStateInfo(0).length;
             _isPlaying = true;
-            InputManager.Instance.EnableGameAction(false);
+            InputManager.Instance.InputMaster.Gameplay.Disable();
             yield return new WaitForSeconds(animationLenght);
-            InputManager.Instance.EnableGameAction(true);
+            InputManager.Instance.InputMaster.Gameplay.Enable();
             _isPlaying = false;
             ChangeAnimationState(animator, CharacterState.IDLE, ref currentState);
             PlayAnimationQueue();

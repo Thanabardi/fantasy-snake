@@ -70,8 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4170346f4b40f83498605a9cbe1971f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initHeroSpawnNumber: 3
-  initMonsterSpawnNumber: 3
+  _initHeroSpawnNumber: 3
+  _initMonsterSpawnNumber: 3
   _spawnChances:
   - Chance: 0.7
     SpawnNumber: 1

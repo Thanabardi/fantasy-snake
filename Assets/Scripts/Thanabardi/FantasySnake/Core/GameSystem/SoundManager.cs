@@ -5,7 +5,7 @@ using Thanabardi.Generic.Utility;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace Thanabardi.FantasySnake.Utility
+namespace Thanabardi.FantasySnake.Core.GameSystem
 {
     public class SoundManager : MonoSingleton<SoundManager>
     {
@@ -43,7 +43,7 @@ namespace Thanabardi.FantasySnake.Utility
             _audioSource = GetComponent<AudioSource>();
         }
 
-        public void PlaySound2D(AudioClipSO audioClipSO, int step = _LOG_FADE_STEP)
+        public void PlaySound(AudioClipSO audioClipSO, int step = _LOG_FADE_STEP)
         {
             // play sound by add new AudioSource component into SoundManager
             if (_audioSourceDict.ContainsKey(audioClipSO))
@@ -59,7 +59,7 @@ namespace Thanabardi.FantasySnake.Utility
             StartCoroutine(FadeSound.Fade(audioSource, audioClipSO.Volume, step));
         }
 
-        public void StopSound2D(AudioClipSO audioClipSO, int step = _LOG_FADE_STEP)
+        public void StopSound(AudioClipSO audioClipSO, int step = _LOG_FADE_STEP)
         {
             if (_audioSourceDict.TryGetValue(audioClipSO, out AudioSource audioSource))
             {
@@ -79,18 +79,6 @@ namespace Thanabardi.FantasySnake.Utility
             _audioSource.outputAudioMixerGroup = audioClipSO.AudioMixerGroup;
             _audioSource.volume = audioClipSO.Volume;
             _audioSource.PlayOneShot(audioClipSO.AudioClip, audioClipSO.Volume);
-        }
-
-        public AudioClipSO GetSound(AudioClipSO[] audioClipSOs, ref int index)
-        {
-            // get SoundClip from list
-            if (index >= audioClipSOs.Length)
-            {
-                index = 0;
-            }
-            AudioClipSO audioClipSO = audioClipSOs[index];
-            index++;
-            return audioClipSO;
         }
 
         private void PlaySound(AudioSource audioSource, AudioClipSO audioClipSOs)

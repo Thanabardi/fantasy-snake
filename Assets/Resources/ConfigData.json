@@ -1,19 +1,19 @@
 {
     "BoardWidth": 16,
     "BoardHeight": 16,
-    "InitMonsterSpawnNumber": 4,
-    "InitHeroSpawnNumber": 4,
+    "InitMonsterSpawnNumber": 3,
+    "InitHeroSpawnNumber": 3,
     "SpawnChance": [
         {
-            "Rate": 0.6,
+            "Chance": 0.7,
             "SpawnNumber": 1
         },
         {
-            "Rate": 0.3,
+            "Chance": 0.2,
             "SpawnNumber": 2
         },
         {
-            "Rate": 0.1,
+            "Chance": 0.1,
             "SpawnNumber": 3
         }
     ]

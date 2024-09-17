@@ -2,7 +2,7 @@ using UnityEngine;
 using Thanabardi.Generic.Utility;
 using Thanabardi.FantasySnake.Core.UI;
 
-namespace Thanabardi.FantasySnake.Core.System
+namespace Thanabardi.FantasySnake.Core.GameSystem
 {
     public class UIManager : MonoSingleton<UIManager>
     {
@@ -10,8 +10,6 @@ namespace Thanabardi.FantasySnake.Core.System
         private MenuPanel _menuPanel;
         [SerializeField]
         private SettingPanel _settingPanel;
-        [SerializeField]
-        private SceneLoadPanel _sceneLoadPanel;
 
         public override void Awake()
         {
@@ -30,10 +28,6 @@ namespace Thanabardi.FantasySnake.Core.System
                     _settingPanel.SetActive(isActive);
                     _settingPanel.transform.SetAsLastSibling();
                     return _settingPanel;
-                case UIKey.SceneLoadPanel:
-                    _sceneLoadPanel.SetActive(isActive);
-                    _sceneLoadPanel.transform.SetAsLastSibling();
-                    return _sceneLoadPanel;
                 default:
                     Debug.LogError("UI Panel not found");
                     return null;
@@ -43,8 +37,7 @@ namespace Thanabardi.FantasySnake.Core.System
         public enum UIKey
         {
             MenuPanel,
-            SettingPanel,
-            SceneLoadPanel
+            SettingPanel
         }
     }
 }

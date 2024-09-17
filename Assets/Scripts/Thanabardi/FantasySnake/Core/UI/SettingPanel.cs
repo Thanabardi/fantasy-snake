@@ -1,6 +1,6 @@
 using System;
 using Thanabardi.FantasySnake.Core.GameState;
-using Thanabardi.FantasySnake.Utility;
+using Thanabardi.FantasySnake.Core.GameSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,20 +42,15 @@ namespace Thanabardi.FantasySnake.Core.UI
             gameObject.SetActive(isActive);
             if (isActive)
             {
-                if (GameStateManager.Instance.PreviousState.StateID == (int)GameStates.State.Menu)
-                {
-                    _menuButton.gameObject.SetActive(false);
-                }
-                else
-                {
-                    _menuButton.gameObject.SetActive(true);
-                }
+                // hide Menu button when previous state is menu
+                _menuButton.gameObject.SetActive(GameStateManager.Instance.PreviousState.StateID != (int)GameStates.State.Menu);
             }
         }
 
         private void OnEnable()
         {
             _exitButton.Select();
+
             _exitButton.onClick.AddListener(OnExitButtonClickedHandler);
             _menuButton.onClick.AddListener(OnMenuButtonClickedHandler);
             _masterVolumeSlider.onValueChanged.AddListener(OnMainVolumeChangedHandler);
@@ -63,7 +58,7 @@ namespace Thanabardi.FantasySnake.Core.UI
             _ambientVolumeSlider.onValueChanged.AddListener(OnAmbientVolumeChangedHandler);
             _sfxVolumeSlider.onValueChanged.AddListener(OnSFXVolumeChangedHandler);
 
-            // load setting data
+            // get volume from audio mixer
             OnMainVolumeChangedHandler(GetVolume(SoundManager.AudioVolumeKey.MASTER_AUDIO_VOLUME_KEY));
             OnMusicVolumeChangedHandler(GetVolume(SoundManager.AudioVolumeKey.MUSIC_AUDIO_VOLUME_KEY));
             OnAmbientVolumeChangedHandler(GetVolume(SoundManager.AudioVolumeKey.AMBIENT_AUDIO_VOLUME_KEY));

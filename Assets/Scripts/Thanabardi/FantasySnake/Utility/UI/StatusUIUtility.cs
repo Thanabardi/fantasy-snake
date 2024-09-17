@@ -27,7 +27,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
         [SerializeField]
         private GameObject _popupStatusTextPrefab;
 
-        private List<Image> _healthBarSections = new();
+        private List<Image> _healthBarSections;
         private Character _character;
 
         private Color _healthBarColor;
@@ -35,6 +35,7 @@ namespace Thanabardi.FantasySnake.Utility.UI
         public void Awake()
         {
             _character = FindObjectOfType<Character>();
+            _healthBarSections = new();
             _classIcon.sprite = _character.CharacterClass.ClassIcon;
             if (_character is Monster)
             {

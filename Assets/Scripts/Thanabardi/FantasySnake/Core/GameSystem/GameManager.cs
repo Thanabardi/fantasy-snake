@@ -8,15 +8,15 @@ using Thanabardi.FantasySnake.Utility;
 using UnityEngine;
 using Thanabardi.FantasySnake.Core.GameWorld.GamePotion;
 
-namespace Thanabardi.FantasySnake.Core.System
+namespace Thanabardi.FantasySnake.Core.GameSystem
 {
     public class GameManager : MonoBehaviour
     {
-        private CinemachineVirtualCamera _virtualCamera;
         private GridManager _gridManager;
         private SpawnWorldObjectUtility _spawnWorldObjectUtility;
         private PlayerActionManager _playerActionManager;
 
+        private CinemachineVirtualCamera _virtualCamera;
         private Queue<Hero> _playerQueue = new();
 
         private void Awake()
@@ -30,15 +30,6 @@ namespace Thanabardi.FantasySnake.Core.System
         private void Start()
         {
             InitializePlayer();
-        }
-
-        private void InitializePlayer()
-        {
-            GridTile playerTile = _gridManager.GetRandomEmptyTile();
-            Hero player = (Hero)_spawnWorldObjectUtility.SpawnCharacter(typeof(Hero), playerTile);
-            _playerQueue.Enqueue(player);
-            _playerActionManager.PlayerAddHandler(_playerQueue, playerTile);
-            UpdateVirtualCamera();
         }
 
         public void RotateOrderLeftHandler()
@@ -111,6 +102,8 @@ namespace Thanabardi.FantasySnake.Core.System
         {
             bool removePlayer = false;
             bool removeMonster = false;
+            _playerActionManager.FlipLookAt(player, monster.transform.position);
+            _playerActionManager.FlipLookAt(monster, player.transform.position);
             player.OnHit(monster, () => { removePlayer = true; });
             monster.OnHit(player, () => { removeMonster = true; });
             if (removePlayer)
@@ -161,6 +154,17 @@ namespace Thanabardi.FantasySnake.Core.System
                 _gridManager.RemoveWorldItem(potion);
                 Destroy(potion.gameObject);
             });
+        }
+
+        private void InitializePlayer()
+        {
+            if (_gridManager.TryGetRandomEmptyTile(out GridTile playerTile))
+            {
+                Hero player = (Hero)_spawnWorldObjectUtility.SpawnCharacter(typeof(Hero), playerTile);
+                _playerQueue.Enqueue(player);
+                _playerActionManager.PlayerAddHandler(_playerQueue, playerTile);
+                UpdateVirtualCamera();
+            }
         }
 
         private void UpdateVirtualCamera()

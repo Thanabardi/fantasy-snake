@@ -1,4 +1,3 @@
-
 using Thanabardi.Generic.Core.StateSystem;
 
 namespace Thanabardi.FantasySnake.Core.GameState

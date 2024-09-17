@@ -2,6 +2,7 @@ using UnityEngine.EventSystems;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Thanabardi.FantasySnake.Core.GameSystem;
 
 namespace Thanabardi.FantasySnake.Utility.UI
 {

@@ -48,7 +48,6 @@ namespace Thanabardi.FantasySnake.Core.UI
         private void OnSettingButtonClickedHandler()
         {
             OnSettingButtonClicked?.Invoke();
-            SetActive(false);
         }
 
         private void OnExitButtonClickedHandler()
