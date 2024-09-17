@@ -37,10 +37,11 @@ A Snake game with Fantasy RPG mixed. The player controls a growing line of Heroe
 
 - The core gameplay elements, along with additional features, are now complete. This includes everything except for the enhancement of monsters over time and level progression. Additional features such as settings, animations, and sound have also been added.
 
-
 *Note: When create this project the latest Unity's latest LTS is 2022.3.45f1*
 
 *Note: To prevent issues with file loading from Git LFS, plese use `git clone` rather than downloading a ZIP file*
+
+*Note: The game must be start from the `StartScene`, and you can open the setting menu at any time by pressing either `ESC` or `Start`*
 
 ---
 
