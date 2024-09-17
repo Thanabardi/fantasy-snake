@@ -40,4 +40,15 @@ A Snake game with Fantasy RPG mixed. The player controls a growing line of Heroe
 
 *Note: When create this project the latest Unity's latest LTS is 2022.3.45f1*
 
+---
 
+
+### Assets Used
+[Board Game Icons](https://kenney.nl/assets/board-game-icons)    
+[Fantasy UI Borders](https://kenney.nl/assets/fantasy-ui-borders)    
+[Impact Sounds](https://kenney.nl/assets/impact-sounds)    
+[Rogue Fantasy Castle](https://assetstore.unity.com/packages/2d/environments/rogue-fantasy-castle-164725)    
+[Bandits - Pixel Art](https://assetstore.unity.com/packages/2d/characters/bandits-pixel-art-104130)    
+[迫り来る危機 - 8bit](https://www.youtube.com/watch?v=NTeyaHTXjvM)    
+[チャレンジ - 8bit #2](https://www.youtube.com/watch?v=76Ulg79AIXw)    
+[ピコピコ・リパブリック賛歌 - 8bit](https://www.youtube.com/watch?v=lCSEr1R7Kac)    
